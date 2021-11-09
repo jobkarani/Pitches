@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 
 from app.models import User, Post, Comment, Category
 # from .. import db,images
-from .forms import CategoryForm
+from .forms import CatForm
 
 
 
@@ -16,7 +16,7 @@ def index():
 
 @main.route('/add_category', methods=['GET', 'POST'])
 def add_cat():
-    form = CategoryForm()
+    form = CatForm()
     if form.validate_on_submit():
         category = Category(name=form.name.data)
         db.session.add(category)

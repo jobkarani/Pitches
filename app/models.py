@@ -39,22 +39,14 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, password):
-        self.hashed_pass = generate_hashed_pass(password)
+        self.hashed_pass = generate_password_hash(password)
 
-    def verify_password(self, password):
-        return check_hashed_pass(self.password_hash, password)
+    def verify_password(self,password):
+        return check_password_hash(self.hashed_pass,password)
 
-    
-
-    def save_user(self):
-        db.session.add(self)
-        db.session.commit()
-
-    
-    def __repr__(self):
+    def _repr_(self):
         return f'User {self.username}'
-
-
+   
 class Post(db.Model):  # post table
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
@@ -71,19 +63,4 @@ class Post(db.Model):  # post table
 
     def __repr__(self):
         return f'Post {self.title}'
-
-class Comment(db.Model):
-    __tablename__ = 'comments'
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text)
-    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
-
-    def save_comment(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def __repr__(self):
-        return f'Comment {self.content}'
 

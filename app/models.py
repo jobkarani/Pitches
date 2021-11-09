@@ -22,3 +22,25 @@ class Category(db.Model):  # category table
 
 
 
+class User(UserMixin, db.Model):  
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255))
+    email = db.Column(db.String(255), unique=True, index=True)
+    hashed_pass = db.Column(db.String(255))
+    bio = db.Column(db.String(255))
+    profile_image_path = db.Column(db.String())
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+
+
+    def save_user(self):
+        db.session.add(self)
+        db.session.commit()
+
+    
+    def __repr__(self):
+        return f'User {self.username}'
+
+
+
+

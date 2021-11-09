@@ -42,5 +42,20 @@ class User(UserMixin, db.Model):
         return f'User {self.username}'
 
 
+class Post(db.Model):  # post table
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    content = db.Column(db.Text)
+    cat_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+    users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+
+    def save_post(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f'Post {self.title}'
 

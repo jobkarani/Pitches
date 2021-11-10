@@ -21,3 +21,6 @@ class CatForm(FlaskForm):
     name = StringField('Category Name', validators=[Required(), Length(1, 64)])
     submit = SubmitField('Submit')
 
+class CommentsForm(FlaskForm):
+    comment = TextAreaField('Comment', validators=[Required()])
+    submit = SubmitField('Comment')

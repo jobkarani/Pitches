@@ -96,27 +96,3 @@ def add_cat():
         flash('Category added successfully.')
         return redirect(url_for('.index'))
     return render_template('add_category.html', form=form)
-
-@main.route('/like/<int:id>', methods=['GET', 'POST'])
-@login_required
-def like(id):
-    posts = Post.query.get(id)
-    if posts is None:
-        abort(404)
-
-    like = Upvote.query.filter_by(user_id=current_user.id, post_id=id).first()
-    if like is not None:
-
-        db.session.delete(like)
-        db.session.commit()
-        flash('You have successfully unlike the pitch!')
-        return redirect(url_for('.post'))
-
-    new_like = Upvote(
-        user_id=current_user.id,
-        post_id=id
-    )
-    db.session.add(new_like)
-    db.session.commit()
-    flash('You have successfully liked the pitch!')
-    return redirect(url_for('.post'))

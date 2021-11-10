@@ -5,18 +5,12 @@
 		{% for category in posts %}
 		<div class="col-md-4">
 			<div class="card">
-				<h5 class="card-header bg-success">{{category.title}}</h5>
+				<h5 class="card-header bg-success">Pitch: {{category.title}}</h5>
 				<div class="card-body">
-					<p>{{category.post}}</p>
-					<p class="text-center"> Category: {{category.category_name}}</p>
-					<div><span class="footer">{{category.content}}</span>
-						<span class="foot"> <a href=""><i
-									class="fa fa-thumbs-up " style="font-size:18px;color: bg-success"></i></a>
-                                    {{posts.upvote.count()}}</span>
-						<span class="foot"> <a href=""> <i
-									class="fa fa-thumbs-down " style="font-size:18px;color: bg-success" ></i>
-								</a></span>
-					</div>
+					<p> {{category.post}}</p>
+					<p> Category: {{category.category_name}}</p>
+					<div><span class="footer">Content: {{category.content}}</span></div>
+                    <p> Posted at: {{category.date_posted}}</p>
 				</div>
 			</div>
 		</div>

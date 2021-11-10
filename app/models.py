@@ -62,7 +62,6 @@ class Post(db.Model):  # post table
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category_name = db.Column(db.String(255), index = True,nullable = False)
-
     def save_post(self):
         db.session.add(self)
         db.session.commit()
@@ -94,19 +93,3 @@ class Comment(db.Model):
     def __repr__(self):
         return f'Comment {self.content}'
 
-class Upvote(db.Model):
-  tablename = 'upvotes'
-  id = db.Column(db.Integer,primary_key=True)
-  user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-  post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
-  def save(self):
-    db.session.add(self)
-    db.session.commit()
-
-  @classmethod
-  def get_upvotes(cls,id):
-    upvote = Upvote.query.filter_by(post_id=id).all()
-    return upvote
-
-  def repr(self):
-      return f'{self.user_id}:{self.post_id}'

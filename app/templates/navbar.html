@@ -16,6 +16,7 @@
             <ul class="nav navbar-nav navbar-right">
               {% if current_user.is_authenticated %}
               <li class="user"><a href="{{url_for('main.profile',uname=current_user.username)}}">{{current_user.username}}</a></li>
+              <li><a href="{{url_for('main.addposts')}}" class="tag">Post Pitches</a></li>
               <li><a href="{{url_for('main.posts')}}" class="tag">View Pitches</a></li>
               <li><a href="{{url_for('auth.logout')}}">Log out</a></li>
               {% else %}

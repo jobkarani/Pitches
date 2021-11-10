@@ -3,7 +3,7 @@ from . import main
 from flask_login import login_required, current_user
 
 from app.models import User, Post, Category
-# from .. import db,images
+from .. import db,photos
 from .forms import UpdateProfile,CommentsForm,PostForm
 
 
@@ -16,15 +16,17 @@ def index():
 @main.route('/posts')
 def posts():
     posts = Post.query.all()
-    # sales = Post.query.filter_by(category = 'sales').all() 
-    # interview = Post.query.filter_by(category = 'interview').all()
-    # elevator = Post.query.filter_by(category = 'elevator').all()
-    # promotion = Post.query.filter_by(category = 'promotion').all()
-    # personal = Post.query.filter_by(category = 'personal').all()
-    # pickuplines = Post.query.filter_by(category = 'pickuplines').all()
+    sales = Post.query.filter_by(category_name="Sales")
+    interview = Post.query.filter_by(category_name = 'Interview').all()
+    elevator = Post.query.filter_by(category_name = 'Elevator').all()
+    promotion = Post.query.filter_by(category_name = 'Promotion').all()
+    personal = Post.query.filter_by(category_name = 'Personal').all()
+    pickuplines = Post.query.filter_by(category_name = 'Pickuplines').all()
+
 
     title = 'PitchDom -  Welcome to PitchDom'
-    return render_template('posts.html', title=title , posts = posts )
+    return render_template('posts.html', title=title , posts = posts, sales=sales, interview = interview, 
+    elevator = elevator,promotion = promotion, personal = personal, pickuplines = pickuplines )
 @main.route('/addpost',methods = ['GET', 'POST'])
 @login_required
 def addposts():
@@ -34,9 +36,9 @@ def addposts():
         post = form.post.data
         category = form.category.data
         user_id = current_user
-        new_pitch_object = Post(post=post,user_id=current_user._get_current_object().id,category=category,title=title)
-        new_pitch_object.save_p()
-        return redirect(url_for('main.post'))
+        new_pitch_object = Post( category_name=category,title=title,content=post)
+        new_pitch_object.save_post()
+        return redirect(url_for('main.addposts'))
         
 
         return(redirect(url_for('main.category')))
@@ -73,6 +75,16 @@ def update_profile(uname):
 
     return render_template('profile/update.html',form =form)
 
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))
 
 @main.route('/add_category', methods=['GET', 'POST'])
 def add_cat():
@@ -84,3 +96,27 @@ def add_cat():
         flash('Category added successfully.')
         return redirect(url_for('.index'))
     return render_template('add_category.html', form=form)
+
+@main.route('/like/<int:id>', methods=['GET', 'POST'])
+@login_required
+def like(id):
+    posts = Post.query.get(id)
+    if posts is None:
+        abort(404)
+
+    like = Upvote.query.filter_by(user_id=current_user.id, post_id=id).first()
+    if like is not None:
+
+        db.session.delete(like)
+        db.session.commit()
+        flash('You have successfully unlike the pitch!')
+        return redirect(url_for('.post'))
+
+    new_like = Upvote(
+        user_id=current_user.id,
+        post_id=id
+    )
+    db.session.add(new_like)
+    db.session.commit()
+    flash('You have successfully liked the pitch!')
+    return redirect(url_for('.post'))

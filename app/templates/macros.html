@@ -8,15 +8,14 @@
 				<h5 class="card-header bg-success">{{category.title}}</h5>
 				<div class="card-body">
 					<p>{{category.post}}</p>
-					<p class="text-center"> Category: {{category.category}}</p>
-					<footer class="blockquote-footer text-center"> Posted by: {{category.user.username}}</footer>
-					<div><span class="footer">{{category.comment.count()}} Comments</span>
-						<span class="foot"> <a href="{{url_for('main.like',id = category.id)}}"><i
+					<p class="text-center"> Category: {{category.category_name}}</p>
+					<div><span class="footer">{{category.content}}</span>
+						<span class="foot"> <a href=""><i
 									class="fa fa-thumbs-up " style="font-size:18px;color: bg-success"></i></a>
-							{{category.upvote.count()}}</span>
-						<span class="foot"> <a href="{{url_for('main.dislike',id = category.id)}}"> <i
+                                    {{posts.upvote.count()}}</span>
+						<span class="foot"> <a href=""> <i
 									class="fa fa-thumbs-down " style="font-size:18px;color: bg-success" ></i>
-								{{category.downvote.count()}}</a></span>
+								</a></span>
 					</div>
 				</div>
 			</div>

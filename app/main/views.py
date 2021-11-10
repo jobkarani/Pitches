@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 
 from app.models import User, Post, Category
 # from .. import db,images
-from .forms import CatForm
+from .forms import UpdateProfile,CommentsForm,PostForm
 
 
 
@@ -16,17 +16,15 @@ def index():
 @main.route('/posts')
 def posts():
     posts = Post.query.all()
-    sales = Post.query.filter_by(category = 'sales').all() 
-    interview = Post.query.filter_by(category = 'interview').all()
-    elevator = Post.query.filter_by(category = 'elevator').all()
-    promotion = Post.query.filter_by(category = 'promotion').all()
-    personal = Post.query.filter_by(category = 'personal').all()
-    pickuplines = Post.query.filter_by(category = 'pickuplines').all()
+    # sales = Post.query.filter_by(category = 'sales').all() 
+    # interview = Post.query.filter_by(category = 'interview').all()
+    # elevator = Post.query.filter_by(category = 'elevator').all()
+    # promotion = Post.query.filter_by(category = 'promotion').all()
+    # personal = Post.query.filter_by(category = 'personal').all()
+    # pickuplines = Post.query.filter_by(category = 'pickuplines').all()
 
     title = 'PitchDom -  Welcome to PitchDom'
-    return render_template('posts.html', title=title , posts = posts, sales = sales,interview = interview, 
-    elevator = elevator,promotion = promotion, personal = personal, pickuplines = pickuplines)
-
+    return render_template('posts.html', title=title , posts = posts )
 @main.route('/addpost',methods = ['GET', 'POST'])
 @login_required
 def addposts():

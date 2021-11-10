@@ -61,6 +61,7 @@ class Post(db.Model):  # post table
     cat_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    category_name = db.Column(db.String(255), index = True,nullable = False)
 
     def save_post(self):
         db.session.add(self)

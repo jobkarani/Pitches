@@ -16,7 +16,7 @@ There are no bugs as of now :)
 * [Heroku](https://heroku.com)
 
 ## Setup/Installations Requirements
-* This is the live link to view the project <b><a href="">View PitchDom</a></b>
+* This is the live link to view the project <b><a href="https://pitchdomm.herokuapp.com/">View PitchDom</a></b>
 
 ## Support and contact details
 If you have any suggestion or contributions about this project, you can reach out to me on:
